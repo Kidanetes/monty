@@ -12,4 +12,5 @@ int number_of_words(char *str);
 char **_strtok(char *str);
 int _strlen(char *s);
 void free_maloc(char **array);
+void (*f(char *s))(stack_t **stack, unsigned int line_number);
 #endif

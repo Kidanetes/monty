@@ -4,9 +4,10 @@
 int main(int argc, char *argv[])
 {
 	int fd;
+	stack_t **top = NULL;
 	FILE *f;
 	size_t n = 0;
-	int j;
+	unsigned int line_num = 0;
 	char *lineptr = NULL, **str1;
 
 	if (argc != 2)
@@ -25,25 +26,40 @@ int main(int argc, char *argv[])
         }
 	while (getline(&lineptr, &n, f) != -1)
 	{
-		/*printf("%s", lineptr);*/
 		str1 = _strtok(lineptr);
-		if (str1 != NULL)
+		if (str1 == NULL || str1[0][0] == '#')
 		{
-			j = 0;
-			while (str1[j] != NULL)
-			{
-				printf("%s ", str1[j]);
-				j++;
-			}
-			printf("\n");
-			free_maloc(str1);
+			line_num++;
+			continue;
 		}
+		search_function(top, str1, line_num);
+		free_maloc(str1);
 
 	}
 	free(lineptr);
 	fclose(f);
 	return(0);
 }
+void search_function(stack_t **stack, char **str1, unsigned int line_number)
+{
+	void (*fun)(stack_t **stack, unsigned int line_number);
+
+	if (strcmp(str1[0], "push") == 0)
+	{
+		if (str1[1] != NULL && isnumber(str1[1]) == 0)
+			operand = atoi(str1[1]);
+		else
+		{
+			fprintf(stderr,  "L%d: usage: push integer\n", line_number);
+			exit(EXIT_FAILURE);
+		}
+	}
+	fun = get_fun(str1[0]);
+	if (fun != NULL)
+		fun(stack, line_number);
+}
+
+
 /**
  * free_maloc - frees pointer to pointer
  * dynamic allocation

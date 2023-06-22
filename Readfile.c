@@ -39,6 +39,7 @@ int main(int argc, char *argv[])
 		}
 		search_function(&top, str1, lineptr, f, line_num);
 		free_maloc(str1);
+		line_num++;
 
 	}
 	free_stack(top);

@@ -79,7 +79,7 @@ void search_function(stack_t **stack, char **str1,
 		fun(stack, line_number);
 	else
 	{
-		fprintf(stderr, "L%d: unknown instruction %s\n", line_number, str[0]);
+		fprintf(stderr, "L%d: unknown instruction %s\n", line_number, str1[0]);
 		free(lineptr);
 		fclose(f);
 		free_maloc(str1);

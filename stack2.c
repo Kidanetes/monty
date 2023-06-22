@@ -116,10 +116,10 @@ void rotr(stack_t **stack, unsigned int line_number)
 		tmp = *stack;
 		while (tmp->next != NULL)
 			tmp = tmp->next;
-		num = tmp->n;
+		operand = tmp->n;
 		tmp2 = tmp->prev;
 		tmp2->next = NULL;
 		free(tmp);
-		push(stack, line_number);
+		push_s(stack, line_number);
 	}
 }

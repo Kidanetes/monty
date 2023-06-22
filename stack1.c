@@ -6,7 +6,7 @@
  * the current instruction is found
  * Return: void
  */
-void push(stack_t **stack, __attribute__ ((unused))unsigned int line_number)
+void push_s(stack_t **stack, __attribute__ ((unused))unsigned int line_number)
 {
 	stack_t	*new;
 
@@ -18,21 +18,20 @@ void push(stack_t **stack, __attribute__ ((unused))unsigned int line_number)
 	}
 	if (*stack == NULL)
 	{
-		new->n = num;
+		new->n = operand;
 		new->prev = NULL;
 		new->next = NULL;
 		*stack = new;
 	}
 	else
 	{
-		new->n = num;
+		new->n = operand;
 		new->next = *stack;
 		new->prev = NULL;
 		(**stack).prev = new;
 		*stack = new;
 	}
 }
-#include "monty.h"
 /**
  * pall - prints elements of the stack
  * @stack: top element
@@ -116,4 +115,3 @@ void swap(stack_t **stack, unsigned int line_number)
 	tmp->next = tmp3;
 	*stack = tmp2;
 }
-

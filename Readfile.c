@@ -4,10 +4,10 @@
 int main(int argc, char *argv[])
 {
 	int fd;
-	stack_t **top = NULL;
+	stack_t *top = NULL;
 	FILE *f;
 	size_t n = 0;
-	unsigned int line_num = 0;
+	unsigned int line_num = 1;
 	char *lineptr = NULL, **str1;
 
 	if (argc != 2)
@@ -32,10 +32,11 @@ int main(int argc, char *argv[])
 			line_num++;
 			continue;
 		}
-		search_function(top, str1, line_num);
+		search_function(&top, str1, line_num);
 		free_maloc(str1);
 
 	}
+	free_stack(top);
 	free(lineptr);
 	fclose(f);
 	return(0);
@@ -51,6 +52,8 @@ void search_function(stack_t **stack, char **str1, unsigned int line_number)
 		else
 		{
 			fprintf(stderr,  "L%d: usage: push integer\n", line_number);
+			free_maloc(str1);
+			free_stack(*stack);
 			exit(EXIT_FAILURE);
 		}
 	}
@@ -80,4 +83,21 @@ void free_maloc(char **array)
 		j--;
 	}
 	free(array);
+}
+/**
+ * free_stack - free every memory allocation by stack
+ * @stack: top element of the stack
+ *
+ * Return: nothing
+ */
+void free_stack(stack_t *stack)
+{
+	stack_t *tmp;
+
+	while (stack != NULL)
+	{
+		tmp = stack->next;
+		free(stack);
+		stack = tmp;
+	}
 }

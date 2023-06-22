@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
 			line_num++;
 			continue;
 		}
-		search_function(&top, str1, line_num);
+		search_function(&top, str1, lineptr, f, line_num);
 		free_maloc(str1);
 
 	}
@@ -53,7 +53,7 @@ int main(int argc, char *argv[])
  * @line_number: number of the line
  * Return: nothing
  */
-void search_function(stack_t **stack, char **str1, unsigned int line_number)
+void search_function(stack_t **stack, char **str1, char *lineptr, FILE *f, unsigned int line_number)
 {
 	void (*fun)(stack_t **stack, unsigned int line_number);
 
@@ -64,6 +64,8 @@ void search_function(stack_t **stack, char **str1, unsigned int line_number)
 		else
 		{
 			fprintf(stderr,  "L%d: usage: push integer\n", line_number);
+			free(lineptr);
+			fclose(f);
 			free_maloc(str1);
 			free_stack(*stack);
 			exit(EXIT_FAILURE);

@@ -54,6 +54,7 @@ int main(int argc, char *argv[])
  * @line_number: number of the line
  * @lineptr: string from getline
  * @f: file stream
+ * @status: 1(stack mode) or 2(queue mode)
  * Return: nothing
  */
 void search_function(stack_t **stack, char **str1,
@@ -65,7 +66,7 @@ void search_function(stack_t **stack, char **str1,
 		*status = 1;
 	else if (strcmp(str1[0], "queue") == 0)
 		*status = 2;
-	else 
+	else
 	{
 		if (strcmp(str1[0], "push") == 0)
 		{

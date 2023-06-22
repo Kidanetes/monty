@@ -2,7 +2,7 @@
 /**
  * get_fun - return a function pointer from opcode
  * @s: opcode
- *
+ * @status: indicator of stack or queue mode
  * Return: pointer to function or NULL
  */
 void (*get_fun(char *s, int status))(stack_t **stack, unsigned int line_number)

@@ -32,10 +32,9 @@ int main(int argc, char *argv[])
 	while (getline(&lineptr, &n, f) != -1)
 	{
 		str1 = _strtok(lineptr);
-		if (str1[0] == NULL)
+		if (str1 == NULL)
 		{
 			line_num++;
-			free_maloc(str1);
 			continue;
 		}
 		search_function(&top, str1, lineptr, f, line_num);

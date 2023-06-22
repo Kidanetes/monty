@@ -70,9 +70,9 @@ int number_of_words(char *str)
 {
 	int i, j = 0;
 
-	if (str[0] == ' ')
+	if (str[0] == ' ' || str[0] == '\n')
 		i = 0;
-	if (str[0] != ' ')
+	if (str[0] != ' ' && str[0] != '\n')
 		i = 1;
 	while (str[j] != '\n')
 	{

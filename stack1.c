@@ -1,6 +1,6 @@
 #include "monty.h"
 /**
- * push - add element to the stack
+ * push_s - add element to the stack
  * @stack: element at the top
  * @line_number: number of the line in which
  * the current instruction is found

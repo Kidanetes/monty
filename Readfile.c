@@ -51,9 +51,12 @@ int main(int argc, char *argv[])
  * @stack: top of the stack
  * @str1: tokinized strings
  * @line_number: number of the line
+ * @lineptr: string from getline
+ * @f: file stream
  * Return: nothing
  */
-void search_function(stack_t **stack, char **str1, char *lineptr, FILE *f, unsigned int line_number)
+void search_function(stack_t **stack, char **str1,
+		char *lineptr, FILE *f, unsigned int line_number)
 {
 	void (*fun)(stack_t **stack, unsigned int line_number);
 
@@ -63,7 +66,7 @@ void search_function(stack_t **stack, char **str1, char *lineptr, FILE *f, unsig
 			operand = atoi(str1[1]);
 		else
 		{
-			fprintf(stderr,  "L%d: usage: push integer\n", line_number);
+			fprintf(stderr, "L%d: usage: push integer\n", line_number);
 			free(lineptr);
 			fclose(f);
 			free_maloc(str1);
@@ -74,6 +77,16 @@ void search_function(stack_t **stack, char **str1, char *lineptr, FILE *f, unsig
 	fun = get_fun(str1[0]);
 	if (fun != NULL)
 		fun(stack, line_number);
+	else
+	{
+		fprintf(stderr, "L%d: unknown instruction %s\n", line_number, str[0]);
+		free(lineptr);
+		fclose(f);
+		free_maloc(str1);
+		free_stack(*stack);
+		exit(EXIT_FAILURE);
+	}
+
 }
 /**
  * free_maloc - frees pointer to pointer

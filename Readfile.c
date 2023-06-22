@@ -25,8 +25,8 @@ int main(int argc, char *argv[])
 	if (fd == -1 || f == NULL)
 	{
 		if (fd != -1)
-			close(fd); 
-		fprintf(stderr,"Error: Can't open file %s\n", argv[1]);
+			close(fd);
+		fprintf(stderr, "Error: Can't open file %s\n", argv[1]);
 		exit(EXIT_FAILURE);
 	}
 	while (getline(&lineptr, &n, f) != -1)

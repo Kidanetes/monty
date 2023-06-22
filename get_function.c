@@ -5,10 +5,10 @@
  *
  * Return: pointer to function or NULL
  */
-void (*get_fun(char *s))(stack_t **stack, unsigned int line_number)
+void (*get_fun(char *s, int status))(stack_t **stack, unsigned int line_number)
 {
 	instruction_t funs[] = {
-		{"push", push_s},
+		/*{"push", push_s},*/
 		{"pall", pall},
 		{"pint", pint},
 		{"pop", pop},
@@ -25,9 +25,14 @@ void (*get_fun(char *s))(stack_t **stack, unsigned int line_number)
 		{"rotr", rotr},
 		{NULL, NULL}
 	};
-	int i;
+	int i = 0;
 
-	for (i = 0; funs[i].opcode != NULL; i++)
+	if (status == 1 && strcmp("push", s) == 0)
+		return (push_s);
+	if (status == 2 && strcmp("push", s) == 0)
+		return (push_q);
+
+	for (; funs[i].opcode != NULL; i++)
 	{
 		if (strcmp(funs[i].opcode, s) == 0)
 			return (funs[i].f);

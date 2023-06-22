@@ -8,7 +8,7 @@
  */
 int main(int argc, char *argv[])
 {
-	int fd;
+	int fd, status = 1;
 	stack_t *top = NULL;
 	FILE *f;
 	size_t n = 0;
@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
 			line_num++;
 			continue;
 		}
-		search_function(&top, str1, lineptr, f, line_num);
+		search_function(&top, str1, lineptr, f, line_num, &status);
 		free_maloc(str1);
 		line_num++;
 
@@ -57,35 +57,42 @@ int main(int argc, char *argv[])
  * Return: nothing
  */
 void search_function(stack_t **stack, char **str1,
-		char *lineptr, FILE *f, unsigned int line_number)
+		char *lineptr, FILE *f, unsigned int line_number, int *status)
 {
 	void (*fun)(stack_t **stack, unsigned int line_number);
 
-	if (strcmp(str1[0], "push") == 0)
+	if (strcmp(str1[0], "stack") == 0)
+		*status = 1;
+	else if (strcmp(str1[0], "queue") == 0)
+		*status = 2;
+	else 
 	{
-		if (str1[1] != NULL && isnumber(str1[1]) == 0)
-			operand = atoi(str1[1]);
+		if (strcmp(str1[0], "push") == 0)
+		{
+			if (str1[1] != NULL && isnumber(str1[1]) == 0)
+				operand = atoi(str1[1]);
+			else
+			{
+				fprintf(stderr, "L%d: usage: push integer\n", line_number);
+				free(lineptr);
+				fclose(f);
+				free_maloc(str1);
+				free_stack(*stack);
+				exit(EXIT_FAILURE);
+			}
+		}
+		fun = get_fun(str1[0], *status);
+		if (fun != NULL)
+			fun(stack, line_number);
 		else
 		{
-			fprintf(stderr, "L%d: usage: push integer\n", line_number);
+			fprintf(stderr, "L%d: unknown instruction %s\n", line_number, str1[0]);
 			free(lineptr);
 			fclose(f);
 			free_maloc(str1);
 			free_stack(*stack);
 			exit(EXIT_FAILURE);
 		}
-	}
-	fun = get_fun(str1[0]);
-	if (fun != NULL)
-		fun(stack, line_number);
-	else
-	{
-		fprintf(stderr, "L%d: unknown instruction %s\n", line_number, str1[0]);
-		free(lineptr);
-		fclose(f);
-		free_maloc(str1);
-		free_stack(*stack);
-		exit(EXIT_FAILURE);
 	}
 
 }

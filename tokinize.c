@@ -34,6 +34,11 @@ char **_strtok(char *str)
 	if (array == NULL)
 		return (NULL);
 	token = strtok(str, " \n");
+	if (token[0] == '#')
+	{
+		free(array);
+		return (NULL);
+	}
 	while (token != NULL)
 	{
 		len = _strlen(token);
